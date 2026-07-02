@@ -1,0 +1,141 @@
+
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/pinmux@2430000";  // Pinmux node for Orin
+        __overlay__ {
+            can0_err_paa7 {
+                nvidia,pins = "can0_err_paa7";
+                nvidia,function = "rsvd0";              // or "gpio" if supported
+                nvidia,pull = <TEGRA_PIN_PULL_DOWN>;    // choose PU/PD as needed
+                nvidia,tristate = <TEGRA_PIN_ENABLE>;   // ENABLE = Hi-Z output driver
+                nvidia,enable-input = <TEGRA_PIN_ENABLE>; // enable input receiver
+            };
+        };
+    };
+};
+
+
+Here’s a **ready-to-use device tree overlay** for PAA.07, plus step-by-step instructions to apply it on your already flashed Orin:
+
+***
+
+## ✅ **Overlay File: `paa7-gpio-input-overlay.dts`**
+
+```dts
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/pinmux@2430000";  // Pinmux node for Orin
+        __overlay__ {
+            can0_err_paa7 {
+                nvidia,pins = "can0_err_paa7";
+                nvidia,function = "rsvd0";              // or "gpio" if supported
+                nvidia,pull = <TEGRA_PIN_PULL_DOWN>;    // choose PU/PD as needed
+                nvidia,tristate = <TEGRA_PIN_ENABLE>;   // ENABLE = Hi-Z output driver
+                nvidia,enable-input = <TEGRA_PIN_ENABLE>; // enable input receiver
+            };
+        };
+    };
+};
+```
+
+***
+
+## ✅ **Step-by-Step Instructions**
+
+### **1. Create the overlay file**
+
+On your host PC (or Orin if you have `dtc` installed):
+
+```bash
+nano paa7-gpio-input-overlay.dts
+# Paste the content above and save
+```
+
+***
+
+### **2. Compile the overlay**
+
+```bash
+dtc -I dts -O dtb -o paa7-gpio-input-overlay.dtbo paa7-gpio-input-overlay.dts
+```
+
+This generates `paa7-gpio-input-overlay.dtbo`.
+
+***
+
+### **3. Copy overlay to Orin**
+
+```bash
+scp paa7-gpio-input-overlay.dtbo <your-orin-ip>:/boot/
+```
+
+***
+
+### **4. Edit `extlinux.conf` to apply overlay**
+
+On Orin:
+
+```bash
+sudo nano /boot/extlinux/extlinux.conf
+```
+
+Find the `APPEND` line for your boot entry and add:
+
+    FDTOVERLAY /boot/paa7-gpio-input-overlay.dtbo
+
+Example:
+
+    APPEND ${cbootargs} root=/dev/mmcblk0p1 rw rootwait rootfstype=ext4 FDTOVERLAY /boot/paa7-gpio-input-overlay.dtbo
+
+***
+
+### **5. Reboot**
+
+```bash
+sudo reboot
+```
+
+***
+
+### **6. Verify**
+
+After reboot:
+
+```bash
+cat /sys/kernel/debug/pinctrl/*/pinmux | grep paa7
+gpioinfo gpiochip1 | grep PAA.07
+```
+
+You should see:
+
+*   `enable-input = ENABLE`
+*   `tristate = ENABLE`
+*   Direction: **input** in `gpioinfo`.
+
+***
+
+### ✅ **Optional sanity check**
+
+If you want to confirm the overlay applied:
+
+```bash
+cat /proc/device-tree/overlay/fragment@0/__overlay__/can0_err_paa7/nvidia,function
+```
+
+***
+
+### **Next Steps**
+
+Once verified, your Jetson pinmux is correct for GPIO input. Your C code (`PlatformGpio_configure(... GPIO_FLAG_INPUT ...)`) will now work as intended, and you can use `gpiomon` or libgpiod edge events to detect the CTRX pulse.
+
+***
+
+Do you want me to also give you:
+✅ A **libgpiod C snippet** to detect the Rx Payload Gate pulse via edge interrupts?  
+Or ✅ A **quick shell command set** for monitoring with `gpiomon`?

@@ -1,0 +1,289 @@
+Error_Status_Bit;Error_Name;Failure_Event_Indication,
+Error Status 1, Word 0 [0];Power supply monitoring: internal VDD1V8 undervoltage (UV2);C
+Error Status 1, Word 0 [1];Reset triggered via RESET_N pin;-
+Error Status 1, Word 0 [2];Power supply monitoring: VDD3V3 undervoltage (UV2);C
+Error Status 1, Word 0 [3];Power supply monitoring: VDD1V8A undervoltage (UV2);C
+Error Status 1, Word 0 [4];Power supply monitoring: internal VDD0V9D undervoltage (UV2);C
+Error Status 1, Word 0 [5];Internal warning: clock generation;M
+Error Status 1, Word 0 [6];Internal error: clock generation;C
+Error Status 1, Word 0 [7];Reference clock generation monitoring;C
+Error Status 1, Word 0 [8];Internal error: clock generation;C
+Error Status 1, Word 0 [9];Reserved;-
+Error Status 1, Word 0 [10];Reserved;-
+Error Status 1, Word 0 [11];Reserved;-
+Error Status 1, Word 0 [12];Reserved;-
+Error Status 1, Word 0 [13];Reserved;-
+Error Status 1, Word 0 [14];Reserved;-
+Error Status 1, Word 0 [15];Reserved;-
+Error Status 1, Word 0 [16];Reserved;-
+Error Status 1, Word 0 [17];Reserved;-
+Error Status 1, Word 0 [18];Reserved;-
+Error Status 1, Word 0 [19];Reserved;-
+Error Status 1, Word 0 [20];Reserved;-
+Error Status 1, Word 0 [21];Reserved;-
+Error Status 1, Word 0 [22];Reserved;-
+Error Status 1, Word 0 [23];Reserved;-
+Error Status 1, Word 0 [24];Reserved;-
+Error Status 1, Word 0 [25];Reserved;-
+Error Status 1, Word 0 [26];Reserved;-
+Error Status 1, Word 0 [27];Reserved;-
+Error Status 1, Word 0 [28];Reserved;-
+Error Status 1, Word 0 [29];Reserved;-
+Error Status 1, Word 0 [30];Reserved;-
+Error Status 1, Word 0 [31];Reserved;-
+Error Status 2, Word 0 [0];Internal error: SMU;A
+Error Status 2, Word 0 [1];TX signal power monitoring error;A
+Error Status 2, Word 0 [2];TX power balance monitoring error;A
+Error Status 2, Word 0 [3];TX phase balance monitoring error;A
+Error Status 2, Word 0 [4];Reserved;-
+Error Status 2, Word 0 [5];Sequencer error;A
+Error Status 2, Word 0 [6];RX baseband HP attenuation monitoring error;A
+Error Status 2, Word 0 [7];RX gain monitoring error;A
+Error Status 2, Word 0 [8];RX gain balance monitoring error;A
+Error Status 2, Word 0 [9];TX phase monitoring hardware error;A
+Error Status 2, Word 0 [10];SADC monitoring hardware error;A
+Error Status 2, Word 0 [11];Reserved;-
+Error Status 2, Word 0 [12];RX internal monitoring;A
+Error Status 2, Word 0 [13];SPI CRC error;A
+Error Status 2, Word 0 [14];Reserved;-
+Error Status 2, Word 0 [15];RX phase balance monitoring error;A
+Error Status 2, Word 0 [16];Reserved;-
+Error Status 2, Word 0 [17];Reserved;-
+Error Status 2, Word 0 [18];Reserved;-
+Error Status 2, Word 0 [19];Internal error: safety flip-flop;A
+Error Status 2, Word 0 [20];Internal error: DCA;B
+Error Status 2, Word 0 [21];Reserved;-
+Error Status 2, Word 0 [22];Internal error: DCA;A
+Error Status 2, Word 0 [23];Internal error: DCA;B
+Error Status 2, Word 0 [24];Internal error: DCA;B
+Error Status 2, Word 0 [25];Reserved;-
+Error Status 2, Word 0 [26];Reserved;-
+Error Status 2, Word 0 [27];Reserved;-
+Error Status 2, Word 0 [28];Reserved;-
+Error Status 2, Word 0 [29];Reserved;-
+Error Status 2, Word 0 [30];Reserved;-
+Error Status 2, Word 0 [31];Reserved;-
+Error Status 2, Word 1 [0];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [1];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [2];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [3];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [4];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [5];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [6];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [7];Reserved;-
+Error Status 2, Word 1 [8];Reserved;-
+Error Status 2, Word 1 [9];Reserved;-
+Error Status 2, Word 1 [10];Reserved;-
+Error Status 2, Word 1 [11];Reserved;-
+Error Status 2, Word 1 [12];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [13];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [14];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [15];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [16];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [17];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [18];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [19];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [20];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [21];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [22];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [23];Reserved;-
+Error Status 2, Word 1 [24];Reserved;-
+Error Status 2, Word 1 [25];Reserved;-
+Error Status 2, Word 1 [26];Reserved;-
+Error Status 2, Word 1 [27];Reserved;-
+Error Status 2, Word 1 [28];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [29];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [30];Internal error: safety flip-flop;B
+Error Status 2, Word 1 [31];Internal error: safety flip-flop;B
+Error Status 2, Word 2 [0];Internal error: communication;B
+Error Status 2, Word 2 [1];Internal error: DCA;B
+Error Status 2, Word 2 [2];Internal error: DCA;A
+Error Status 2, Word 2 [3];Reserved;-
+Error Status 2, Word 2 [4];Internal error: communication;B
+Error Status 2, Word 2 [5];Reserved;-
+Error Status 2, Word 2 [6];Internal error: DCA;B
+Error Status 2, Word 2 [7];Internal error: DCA;B
+Error Status 2, Word 2 [8];Internal error: DCA;B
+Error Status 2, Word 2 [9];Internal error: DCA;B
+Error Status 2, Word 2 [10];Reserved;-
+Error Status 2, Word 2 [11];Reserved;-
+Error Status 2, Word 2 [12];Internal error: DCA;B
+Error Status 2, Word 2 [13];Internal error: communication;B
+Error Status 2, Word 2 [14];Internal error: communication;B
+Error Status 2, Word 2 [15];Internal error: communication;B
+Error Status 2, Word 2 [16];Reserved;-
+Error Status 2, Word 2 [17];Reserved;-
+Error Status 2, Word 2 [18];Internal error: internal resource unlocked;A
+Error Status 2, Word 2 [19];Internal error: DCA;B
+Error Status 2, Word 2 [20];Internal error: communication;B
+Error Status 2, Word 2 [21];Internal error: DCA;B
+Error Status 2, Word 2 [22];Internal error: DCA;B
+Error Status 2, Word 2 [23];Internal error: DCA;B
+Error Status 2, Word 2 [24];Internal error: communication;B
+Error Status 2, Word 2 [25];Reserved;-
+Error Status 2, Word 2 [26];Reserved;-
+Error Status 2, Word 2 [27];Reserved;-
+Error Status 2, Word 2 [28];Reserved;-
+Error Status 2, Word 2 [29];Internal error: DCA;B
+Error Status 2, Word 2 [30];Internal error: DCA;B
+Error Status 2, Word 2 [31];Internal error: communication;B
+Error Status 2, Word 3 [0];Internal error: communication;B
+Error Status 2, Word 3 [1];Internal error: communication;B
+Error Status 2, Word 3 [2];Internal error: communication;B
+Error Status 2, Word 3 [3];Reserved;-
+Error Status 2, Word 3 [4];Reserved;-
+Error Status 2, Word 3 [5];Reserved;-
+Error Status 2, Word 3 [6];Internal error: memory;B
+Error Status 2, Word 3 [7];Internal error: memory;B
+Error Status 2, Word 3 [8];Internal error: memory;B
+Error Status 2, Word 3 [9];Reserved;-
+Error Status 2, Word 3 [10];Reserved;-
+Error Status 2, Word 3 [11];Reserved;-
+Error Status 2, Word 3 [12];Internal error: memory;B
+Error Status 2, Word 3 [13];Internal error: memory;B
+Error Status 2, Word 3 [14];Internal error: communication;B
+Error Status 2, Word 3 [15];Internal error: communication;B
+Error Status 2, Word 3 [16];Internal error: communication;B
+Error Status 2, Word 3 [17];Internal error: communication;B
+Error Status 2, Word 3 [18];Internal error: communication;B
+Error Status 2, Word 3 [19];Internal error: communication;B
+Error Status 2, Word 3 [20];Internal error: eFuse;B
+Error Status 2, Word 3 [21];Internal error: eFuse;B
+Error Status 2, Word 3 [22];Internal error: eFuse;B
+Error Status 2, Word 3 [23];Reserved;-
+Error Status 2, Word 3 [24];DPLL lock error;A
+Error Status 2, Word 3 [25];DPLL ramp frequency error;A
+Error Status 2, Word 3 [26];Internal error: communication;B
+Error Status 2, Word 3 [27];Internal error: communication;B
+Error Status 2, Word 3 [28];Internal error: communication;B
+Error Status 2, Word 3 [29];Internal error: communication;B
+Error Status 2, Word 3 [30];Internal error: communication;B
+Error Status 2, Word 3 [31];Internal error: communication;B
+Error Status 2, Word 4 [0];Power supply monitoring: VDD3V3 overvoltage;A
+Error Status 2, Word 4 [1];Power supply monitoring: VDD3V3 undervoltage (UV1);A
+Error Status 2, Word 4 [2];Internal error: power supply;A
+Error Status 2, Word 4 [3];Power supply monitoring: VDD1V8A overvoltage;A
+Error Status 2, Word 4 [4];Power supply monitoring: VDD1V8A undervoltage (UV1);A
+Error Status 2, Word 4 [5];Internal error: power supply;A
+Error Status 2, Word 4 [6];Power supply monitoring: VDD1V8A overvoltage;A
+Error Status 2, Word 4 [7];Power supply monitoring: VDD1V8A undervoltage (UV1);A
+Error Status 2, Word 4 [8];Power supply monitoring: VDD1V8IO overvoltage;A
+Error Status 2, Word 4 [9];Power supply monitoring: VDD1V8IO undervoltage (UV1);A
+Error Status 2, Word 4 [10];Power supply monitoring: VDD1V8ADC overvoltage;A
+Error Status 2, Word 4 [11];Power supply monitoring: VDD1V8ADC undervoltage (UV1);A
+Error Status 2, Word 4 [12];Power supply monitoring: VDD1V3D overvoltage;A
+Error Status 2, Word 4 [13];Power supply monitoring: VDD1V3D undervoltage (UV1);A
+Error Status 2, Word 4 [14];Internal error: power supply;B
+Error Status 2, Word 4 [15];Power supply monitoring: VDD0V9RF0 overvoltage;A
+Error Status 2, Word 4 [16];Power supply monitoring: VDD0V9RF1 overvoltage;A
+Error Status 2, Word 4 [17];Sequencer error;B
+Error Status 2, Word 4 [18];Power supply monitoring: VDD0V9RF0 undervoltage (UV1);A
+Error Status 2, Word 4 [19];Power supply monitoring: VDD0V9PA overvoltage;A
+Error Status 2, Word 4 [20];Power supply monitoring: VDD0V9RF1 undervoltage (UV1);A
+Error Status 2, Word 4 [21];Power supply monitoring: VDD0V9PA undervoltage (UV1);A
+Error Status 2, Word 4 [22];Sequencer error;B
+Error Status 2, Word 4 [23];Power supply monitoring: internal VDD0V9D overvoltage;A
+Error Status 2, Word 4 [24];Sequencer error;B
+Error Status 2, Word 4 [25];Internal error: power supply;A
+Error Status 2, Word 4 [26];Internal error: power supply;A
+Error Status 2, Word 4 [27];Reserved;-
+Error Status 2, Word 4 [28];Internal error: communication;B
+Error Status 2, Word 4 [29];Reserved;-
+Error Status 2, Word 4 [30];Reserved;-
+Error Status 2, Word 4 [31];Internal error: communication;B
+Error Status 2, Word 5 [0];Internal error: clock generation;A
+Error Status 2, Word 5 [1];Internal error: clock generation;A
+Error Status 2, Word 5 [2];Internal error: clock generation;A
+Error Status 2, Word 5 [3];Reserved;-
+Error Status 2, Word 5 [4];Reserved;-
+Error Status 2, Word 5 [5];Sequencer error;A
+Error Status 2, Word 5 [6];Reserved;M
+Error Status 2, Word 5 [7];Reserved;M
+Error Status 2, Word 5 [8];Reserved;M
+Error Status 2, Word 5 [9];Internal error: clock generation;B
+Error Status 2, Word 5 [10];Reserved;-
+Error Status 2, Word 5 [11];Sequencer error;B
+Error Status 2, Word 5 [12];Sequencer error;A
+Error Status 2, Word 5 [13];Sequencer error;B
+Error Status 2, Word 5 [14];Sequencer warning: Ramp generator violation;M
+Error Status 2, Word 5 [15];Reserved;-
+Error Status 2, Word 5 [16];Reserved;-
+Error Status 2, Word 5 [17];Reserved;-
+Error Status 2, Word 5 [18];Reserved;-
+Error Status 2, Word 5 [19];Reserved;-
+Error Status 2, Word 5 [20];RX1 TIA saturation;A
+Error Status 2, Word 5 [21];RX2 TIA saturation;A
+Error Status 2, Word 5 [22];RX3 TIA saturation;A
+Error Status 2, Word 5 [23];RX4 TIA saturation;A
+Error Status 2, Word 5 [24];RX1 AMP saturation;A
+Error Status 2, Word 5 [25];RX2 AMP saturation;A
+Error Status 2, Word 5 [26];RX3 AMP saturation;A
+Error Status 2, Word 5 [27];RX4 AMP saturation;A
+Error Status 2, Word 5 [28];Internal error: communication;B
+Error Status 2, Word 5 [29];Internal error: communication;B
+Error Status 2, Word 5 [30];Internal error: communication;B
+Error Status 2, Word 5 [31];Internal error: communication;B
+Error Status 2, Word 6 [0];RX1 baseband ADC saturation;A
+Error Status 2, Word 6 [1];RX2 baseband ADC saturation;A
+Error Status 2, Word 6 [2];RX3 baseband ADC saturation;A
+Error Status 2, Word 6 [3];RX4 baseband ADC saturation;A
+Error Status 2, Word 6 [4];Reserved;-
+Error Status 2, Word 6 [5];Reserved;-
+Error Status 2, Word 6 [6];Reserved;-
+Error Status 2, Word 6 [7];Reserved;-
+Error Status 2, Word 6 [8];RX1 DFE saturation;A
+Error Status 2, Word 6 [9];RX2 DFE saturation;A
+Error Status 2, Word 6 [10];RX3 DFE saturation;A
+Error Status 2, Word 6 [11];RX4 DFE saturation;A
+Error Status 2, Word 6 [12];Internal error: communication;B
+Error Status 2, Word 6 [13];Internal error: communication;B
+Error Status 2, Word 6 [14];Reserved;-
+Error Status 2, Word 6 [15];Internal error: HSRIF;A
+Error Status 2, Word 6 [16];Internal error: HSRIF;A
+Error Status 2, Word 6 [17];Internal error: communication;B
+Error Status 2, Word 6 [18];Sequencer error;A
+Error Status 2, Word 6 [19];Overtemperature threshold violation;B
+Error Status 2, Word 6 [20];Undertemperature threshold violation;A
+Error Status 2, Word 6 [21];Warning threshold violation;M
+Error Status 2, Word 6 [22];Reserved;-
+Error Status 2, Word 6 [23];Reserved;-
+Error Status 2, Word 6 [24];Reserved;-
+Error Status 2, Word 6 [25];Reserved;-
+Error Status 2, Word 6 [26];Reserved;-
+Error Status 2, Word 6 [27];Reserved;-
+Error Status 2, Word 6 [28];Reserved;-
+Error Status 2, Word 6 [29];Reserved;-
+Error Status 2, Word 6 [30];Reserved;-
+Error Status 2, Word 6 [31];Reserved;-
+Error Status 2, Word 7 [0];Internal error: DCA;B
+Error Status 2, Word 7 [1];Internal error: DCA;B
+Error Status 2, Word 7 [2];Internal error: DCA;B
+Error Status 2, Word 7 [3];Internal error: DCA;B
+Error Status 2, Word 7 [4];Internal error: DCA;B
+Error Status 2, Word 7 [5];Reserved;-
+Error Status 2, Word 7 [6];Internal error: register container;A
+Error Status 2, Word 7 [7];LOOUT solder connection monitoring error;A
+Error Status 2, Word 7 [8];LOIN solder connection monitoring error;A
+Error Status 2, Word 7 [9];Soft reset triggered by system integrator indication;B
+Error Status 2, Word 7 [10];Safety-related calibration routine failed;A
+Error Status 2, Word 7 [11];Exit_Pre_Operation() failed;A
+Error Status 2, Word 7 [12];OK pin fault injection;A
+Error Status 2, Word 7 [13];Safety-related LO input power calibration routine failed (LOIN power target value not reached);A
+Error Status 2, Word 7 [14];DPLL ramp frequency error;A
+Error Status 2, Word 7 [15];DPLL lock error;A
+Error Status 2, Word 7 [16];Internal error: power supply;A
+Error Status 2, Word 7 [17];Internal error: power supply;A
+Error Status 2, Word 7 [18];Internal error: clock generation;A
+Error Status 2, Word 7 [19];MMIC synchronization failed;A
+Error Status 2, Word 7 [20];Reserved;-
+Error Status 2, Word 7 [21];Reserved;-
+Error Status 2, Word 7 [22];Reserved;-
+Error Status 2, Word 7 [23];Reserved;-
+Error Status 2, Word 7 [24];Reserved;-
+Error Status 2, Word 7 [25];Reserved;-
+Error Status 2, Word 7 [26];Reserved;-
+Error Status 2, Word 7 [27];Reserved;-
+Error Status 2, Word 7 [28];Reserved;-
+Error Status 2, Word 7 [29];Reserved;-
+Error Status 2, Word 7 [30];Reserved;-
+Error Status 2, Word 7 [31];Reserved;-

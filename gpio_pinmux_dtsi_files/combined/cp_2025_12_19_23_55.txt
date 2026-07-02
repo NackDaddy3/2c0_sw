@@ -1,0 +1,205 @@
+Thanks for the heads‑up. That `dtc` error almost always means one (or more) of these in the overlay:
+
+*   The **target path** doesn’t match your actual device tree (wrong node name/path).
+*   The overlay references **macros** (e.g., `TEGRA_PIN_PULL_DOWN`, `TEGRA_PIN_ENABLE`) that aren’t defined because we’re compiling a **standalone** overlay (no header includes).
+*   Minor **syntax** issues (missing semicolons, bad comments, etc.).
+
+Let’s fix it with a robust overlay that uses **numeric literals** (so it compiles standalone), and make sure we point to the **correct pinmux node path** on your Orin.
+
+***
+
+## 1) Find the correct pinmux node path on your Orin
+
+On the Orin, the pinmux controller is typically at a node like **`/pinmux@2430000`** or **`/pinctrl@2430000`** (names differ between BSPs). Let’s confirm the exact path on your device:
+
+```bash
+# List top-level nodes to locate the pinmux/pinctrl node
+ls /proc/device-tree/ | grep -i pin
+
+# Then inspect candidates:
+ls -R /proc/device-tree/pinmux@2430000 2>/dev/null
+ls -R /proc/device-tree/pinctrl@2430000 2>/dev/null
+
+# Or search for "can0_err_paa7" group in the active DT:
+grep -R "can0_err_paa7" /proc/device-tree 2>/dev/null
+```
+
+> Pick the path that exists and contains your pin group `can0_err_paa7`. If your current DTB uses `pinctrl@2430000` (not `pinmux@2430000`), we must use that exact path in the overlay.
+
+***
+
+## 2) Use a **standalone‑friendly** overlay (no macros)
+
+Below are **two** versions—choose the one whose **`target-path`** matches what you found in step 1.
+
+### **A) If your node is `/pinmux@2430000`**
+
+Save as `paa7-gpio-input-overlay.dts`:
+
+```dts
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/pinmux@2430000";    // adjust if your path differs
+        __overlay__ {
+            can0_err_paa7 {
+                nvidia,pins = "can0_err_paa7";
+                // function: "rsvd0" (no SFIO selected). Some BSPs accept "gpio" here.
+                nvidia,function = "rsvd0";
+
+                // Pull: numeric literal so overlay compiles standalone:
+                // 0 = none, 1 = pull-up, 2 = pull-down
+                nvidia,pull = <2>;
+
+                // tristate: 1 = ENABLE (output driver disabled, i.e., Hi-Z)
+                nvidia,tristate = <1>;
+
+                // enable-input: 1 = ENABLE (input receiver active)
+                nvidia,enable-input = <1>;
+            };
+        };
+    };
+};
+```
+
+### **B) If your node is `/pinctrl@2430000`**
+
+Save as `paa7-gpio-input-overlay.dts`:
+
+```dts
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/pinctrl@2430000";   // adjust if your path differs
+        __overlay__ {
+            can0_err_paa7 {
+                nvidia,pins = "can0_err_paa7";
+                nvidia,function = "rsvd0";
+                nvidia,pull = <2>;          // 2 = pull-down
+                nvidia,tristate = <1>;      // Hi-Z output
+                nvidia,enable-input = <1>;  // enable input path
+            };
+        };
+    };
+};
+```
+
+> Using **numeric values** for `pull`, `tristate`, and `enable-input` avoids the need for headers.  
+> Comments inside DTS are fine (`/* ... */`), but I’ve kept them minimal to avoid any parsing ambiguity.
+
+***
+
+## 3) Compile the overlay
+
+```bash
+dtc -I dts -O dtb -o paa7-gpio-input-overlay.dtbo paa7-gpio-input-overlay.dts
+```
+
+If you still get a syntax error, it’s almost certainly the **`target-path`** being wrong (dtc fails when it can’t resolve the overlay’s target). Go back to step 1 and confirm the exact path and the existence of `can0_err_paa7` under that node.
+
+***
+
+## 4) Install and apply the overlay
+
+```bash
+sudo cp paa7-gpio-input-overlay.dtbo /boot/
+sudo nano /boot/extlinux/extlinux.conf
+```
+
+In your active boot entry, append the overlay:
+
+    FDTOVERLAY /boot/paa7-gpio-input-overlay.dtbo
+
+Save and reboot:
+
+```bash
+sudo reboot
+```
+
+***
+
+## 5) Verify after reboot
+
+```bash
+# Confirm pinmux settings applied
+cat /sys/kernel/debug/pinctrl/*/pinmux | grep -i paa7
+
+# Confirm GPIO line is input and usable
+gpioinfo gpiochip1 | grep -E "PAA\.07|paa.07"
+```
+
+Expected:
+
+*   `enable-input = 1`
+*   `tristate = 1` (Hi‑Z output driver)
+*   `pull = 2` (pull‑down)
+*   Direction shows **input** in `gpioinfo`.
+
+***
+
+## 6) If `can0_err_paa7` isn’t found
+
+Some BSPs name the group differently (e.g., `can_err_paa7`, `tsc_edge_out_paa7`, or a generic `paa7`). If your grep in step 1 doesn’t find `can0_err_paa7`, decompile your current DTB to see the exact group name:
+
+```bash
+# On Orin, find your active DTB file (varies by platform)
+ls /boot/dtb/ | grep -i tegra234
+
+# Decompile:
+sudo dtc -I dtb -O dts -o running.dts /boot/dtb/<your-active-dtb>.dtb
+
+# Search the decompiled DTS:
+grep -n "paa7" running.dts
+grep -n "can0_err_paa7" running.dts
+```
+
+Replace `nvidia,pins = "can0_err_paa7";` with the **exact pin group string** present in your DT.
+
+***
+
+## 7) (Optional) Use `"gpio"` function
+
+If your pinmux supports it, you can set:
+
+```dts
+nvidia,function = "gpio";
+```
+
+Otherwise, `"rsvd0"` is acceptable to deselect SFIO while letting GPIO controller own the pad.
+
+***
+
+## 8) Quick runtime test
+
+With CTRX now driving Rx Payload Gate on PAA.07 and Orin pinmux set to input:
+
+```bash
+# Watch for edges (libgpiod)
+gpiomon --chip 1 --line 7 --num-events 20
+```
+
+If the pulse is very short (\~320 ns), `gpiomon` may miss it; prefer **edge events in code** or **increase pulse duration** on CTRX for testing.
+
+***
+
+## Troubleshooting checklist
+
+*   **Syntax error** while compiling: verify the `target-path` and remove any non‑ASCII characters or smart quotes.
+*   **Overlay loads but no change**: double‑check the pin group name and that no other overlay/DT fragment later overrides it.
+*   **`gpioinfo` shows output**: ensure your application isn’t reconfiguring the line to output; also confirm pinmux has `tristate=1`, `enable-input=1`.
+*   **No edges detected**: use a scope to confirm CTRX actually drives the line; consider a longer pulse for validation.
+
+***
+
+If you paste the result of:
+
+```bash
+ls /proc/device-tree | grep -i pin
+grep -R "can0_err_paa7" /proc/device-tree 2>/dev/null
+```
+
+I’ll tailor the `target-path` and pin group name precisely for your board so the overlay compiles and applies cleanly.

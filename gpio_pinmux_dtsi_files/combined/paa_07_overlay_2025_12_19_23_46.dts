@@ -1,0 +1,18 @@
+
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/pinmux@2430000";  // Pinmux node for Orin
+        __overlay__ {
+            can0_err_paa7 {
+                nvidia,pins = "can0_err_paa7";
+                nvidia,function = "rsvd0";              // or "gpio" if supported
+                nvidia,pull = <TEGRA_PIN_PULL_DOWN>;    // choose PU/PD as needed
+                nvidia,tristate = <TEGRA_PIN_ENABLE>;   // ENABLE = Hi-Z output driver
+                nvidia,enable-input = <TEGRA_PIN_ENABLE>; // enable input receiver
+            };
+        };
+    };
+};

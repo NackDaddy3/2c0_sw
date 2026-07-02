@@ -1,0 +1,264 @@
+/*
+ * Copyright (c) 2022-2023, Leopardimaging CORPORATION.
+ * Based Copyright (c) 2018, NVIDIA CORPORATION.  All rights reserved.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+/ {
+	tegra-capture-vi {
+			num-channels = <2>;
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				port@0 {
+					reg = <0>;
+					radar_vi_in0: endpoint {
+						port-index = <0>;
+						bus-width = <4>;
+						vc-id = <0>;
+						remote-endpoint = <&radar_csi_out0>;
+					};
+				};
+				port@1 {
+					reg = <1>;
+					radar_vi_in1: endpoint {
+						port-index = <2>;
+						bus-width = <4>;
+						vc-id = <0>;
+						remote-endpoint = <&radar_csi_out1>;
+					};
+				};
+			};
+		};
+	host1x@13e00000 {
+		nvcsi@15a00000 {
+			num-channels = <2>;
+			#address-cells = <1>;
+			#size-cells = <0>;
+			channel@0 {
+				reg = <0>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						radar_csi_in0: endpoint@0 {
+							port-index = <0>;
+							bus-width = <4>;
+							remote-endpoint = <&radar_out0>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						radar_csi_out0: endpoint@1 {
+							remote-endpoint = <&radar_vi_in0>;
+						};
+					};
+				};
+			};
+			channel@1 {
+				reg = <1>;
+				ports {
+					#address-cells = <1>;
+					#size-cells = <0>;
+					port@0 {
+						reg = <0>;
+						radar_csi_in1: endpoint@0 {
+							port-index = <2>;
+							bus-width = <4>;
+							remote-endpoint = <&radar_out1>;
+						};
+					};
+					port@1 {
+						reg = <1>;
+						radar_csi_out1: endpoint@1 {
+							remote-endpoint = <&radar_vi_in1>;
+						};
+					};
+				};
+			};
+		};
+	};
+
+	i2c@3180000 {
+		radar_a@23 {
+			compatible = "infineon,radar";
+
+			reg = <0x23>;
+			devnode = "video0";
+
+			/* Physical dimensions of sensor */
+			physical_w = "15.0";
+			physical_h = "12.5";
+
+			sensor_model ="radar";
+			/* Define any required hw resources needed by driver */
+			/* ie. clocks, io pins, power sources */
+
+			/* Defines number of frames to be dropped by driver internally after applying */
+			/* sensor crop settings. Some sensors send corrupt frames after applying */
+			/* crop co-ordinates */
+			post_crop_frame_drop = "0";
+
+			/* Convert Gain to unit of dB (decibel) befor passing to kernel driver */
+			use_decibel_gain = "true";
+
+			/* if true, delay gain setting by one frame to be in sync with exposure */
+			delayed_gain = "true";
+
+			/* disable CID_SENSOR_MODE_ID for sensor modes selection */
+			/* by setting to false -> enable setting width and height over v4l2ctl */
+			use_sensor_mode_id = "false";
+
+			#include "tegra234-camera-infineon-radar-a00-modes.dtsi"
+
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				port@0 {
+					reg = <0>;
+					radar_out0: endpoint {
+						port-index = <0>;
+						bus-width = <4>;
+						vc-id = <0>;
+						remote-endpoint = <&radar_csi_in0>;
+					};
+				};
+			};
+		};
+		radar_b@24 {
+			compatible = "infineon,radar";
+
+			reg = <0x24>;
+			devnode = "video1";
+
+			/* Physical dimensions of sensor */
+			physical_w = "15.0";
+			physical_h = "12.5";
+
+			sensor_model ="radar";
+			/* Define any required hw resources needed by driver */
+			/* ie. clocks, io pins, power sources */
+
+			/* Defines number of frames to be dropped by driver internally after applying */
+			/* sensor crop settings. Some sensors send corrupt frames after applying */
+			/* crop co-ordinates */
+			post_crop_frame_drop = "0";
+
+			/* Convert Gain to unit of dB (decibel) befor passing to kernel driver */
+			use_decibel_gain = "true";
+
+			/* if true, delay gain setting by one frame to be in sync with exposure */
+			delayed_gain = "true";
+
+			/* disable CID_SENSOR_MODE_ID for sensor modes selection */
+			/* by setting to false -> enable setting width and height over v4l2ctl */
+			use_sensor_mode_id = "false";
+
+			#include "tegra234-camera-infineon-radar-a00-modes.dtsi"
+
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				port@0 {
+					reg = <0>;
+					radar_out1: endpoint {
+						port-index = <2>;
+						bus-width = <4>;
+						vc-id = <0>;
+						remote-endpoint = <&radar_csi_in1>;
+					};
+				};
+			};
+		};	
+	};
+};
+/ {
+
+	tegra-camera-platform {
+		compatible = "nvidia, tegra-camera-platform";
+		/**
+		* Physical settings to calculate max ISO BW
+		*
+		* num_csi_lanes = <>;
+		* Total number of CSI lanes when all cameras are active
+		*
+		* max_lane_speed = <>;
+		* Max lane speed in Kbit/s
+		*
+		* min_bits_per_pixel = <>;
+		* Min bits per pixel
+		*
+		* vi_peak_byte_per_pixel = <>;
+		* Max byte per pixel for the VI ISO case
+		*
+		* vi_bw_margin_pct = <>;
+		* Vi bandwidth margin in percentage
+		*
+		* max_pixel_rate = <>;
+		* Max pixel rate in Kpixel/s for the ISP ISO case
+		*
+		* isp_peak_byte_per_pixel = <>;
+		* Max byte per pixel for the ISP ISO case
+		*
+		* isp_bw_margin_pct = <>;
+		* Isp bandwidth margin in percentage
+		*/
+		num_csi_lanes = <8>;
+		max_lane_speed = <1500000>;
+		min_bits_per_pixel = <10>;
+		vi_peak_byte_per_pixel = <2>;
+		vi_bw_margin_pct = <25>;
+		isp_peak_byte_per_pixel = <5>;
+		isp_bw_margin_pct = <25>;
+
+		/**
+		 * The general guideline for naming badge_info contains 3 parts, and is as follows,
+		 * The first part is the camera_board_id for the module; if the module is in a FFD
+		 * platform, then use the platform name for this part.
+		 * The second part contains the position of the module, ex. "rear" or "front".
+		 * The third part contains the last 6 characters of a part number which is found
+		 * in the module's specsheet from the vender.
+		 */
+		modules {
+			module0 {
+				badge = "radar_bottomleft";
+				position = "bottomleft";
+				orientation = "0";
+				drivernode0 {
+					/* Declare PCL support driver (classically known as guid)  */
+					pcl_id = "v4l2_sensor";
+					/* Driver v4l2 device name */
+					devname = "radar 2-0023";
+					/* Declare the device-tree hierarchy to driver instance */
+					proc-device-tree = "/proc/device-tree/i2c@3180000/radar_a@23";
+				};
+			};
+			module1 {
+				badge = "radar_bottomright";
+				position = "bottomright";
+				orientation = "0";
+				drivernode0 {
+					/* Declare PCL support driver (classically known as guid)  */
+					pcl_id = "v4l2_sensor";
+					/* Driver v4l2 device name */
+					devname = "radar 2-0024";
+					/* Declare the device-tree hierarchy to driver instance */
+					proc-device-tree = "/proc/device-tree/i2c@3180000/radar_b@24";
+				};
+			};
+		};
+	};
+};

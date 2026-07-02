@@ -1,0 +1,140 @@
+/*
+ * File: Platform_Adapter_Orin_to_P2S30_4xCTRX8191F_v5.h
+ * Description: Adapter header for the "Orin to P2S30 4xCTRX8191F v5" adapter board
+ * Project: MIMOrad
+ * Created Date: Friday, 10 January 2025, 10:01
+ * Author: Daniel Klepatsch (daniel.klepatsch@silicon-austria.com)
+ * ---------------
+ * Last Modified: Thursday, 16 January 2025, 15:39
+ * Modified By: Daniel Klepatsch
+ * ---------------
+ * Copyright (c) 2025 Silicon Austria Labs GmbH
+ */
+
+#ifndef PLATFORM_ADAPTER_ORIN_TO_P2S30_4XCTRX8191F_V5_H
+#define PLATFORM_ADAPTER_ORIN_TO_P2S30_4XCTRX8191F_V5_H
+
+#include "PlatformGpio.h"
+#include "PlatformGpioI2cWrapper.h"
+
+// GPIO Pin Offsets
+
+#define GPIO_OFFSET_EN_PMIC           44
+#define GPIO_OFFSET_NRST_PMIC         141
+#define GPIO_OFFSET_INT_PORT_EXPANDER 10
+
+#define GPIO_OFFSET_RFT_A        20
+#define GPIO_OFFSET_SPI_SS_A     142
+#define GPIO_OFFSET_RESET_N_A    49
+#define GPIO_OFFSET_DMUX_1_A     7
+#define GPIO_OFFSET_DMUX_2_A     140
+#define GPIO_OFFSET_DMUX_1_A_DIR 105
+#define GPIO_OFFSET_DMUX_2_A_DIR 91
+
+#define GPIO_OFFSET_RFT_B     139
+#define GPIO_OFFSET_SPI_SS_B  15
+#define GPIO_OFFSET_RESET_N_B 48
+#define GPIO_OFFSET_DMUX_1_B  19
+#define GPIO_OFFSET_DMUX_2_B  92
+
+#define GPIO_OFFSET_RFT_C     84
+#define GPIO_OFFSET_SPI_SS_C  4
+#define GPIO_OFFSET_RESET_N_C 46
+
+#define GPIO_OFFSET_RFT_D     138
+#define GPIO_OFFSET_SPI_SS_D  145
+#define GPIO_OFFSET_RESET_N_D 93
+
+// GPIO Pin IDs
+
+#define GPIO_ID_EN_PMIC           (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_EN_PMIC & 0xFF))
+#define GPIO_ID_NRST_PMIC         (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_NRST_PMIC & 0xFF))
+#define GPIO_ID_INT_PORT_EXPANDER (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_INT_PORT_EXPANDER & 0xFF))
+
+#define GPIO_ID_RFT_A        (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_RFT_A & 0xFF))
+#define GPIO_ID_SPI_SS_A     (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_SPI_SS_A & 0xFF))
+#define GPIO_ID_RESET_N_A    (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RESET_N_A & 0xFF))
+#define GPIO_ID_DMUX_1_A     (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_1_A & 0xFF))
+#define GPIO_ID_DMUX_2_A     (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_2_A & 0xFF))
+#define GPIO_ID_DMUX_1_A_DIR (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_1_A_DIR & 0xFF))
+#define GPIO_ID_DMUX_2_A_DIR (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_2_A_DIR & 0xFF))
+
+#define GPIO_ID_RFT_B     (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RFT_B & 0xFF))
+#define GPIO_ID_SPI_SS_B  (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_SPI_SS_B & 0xFF))
+#define GPIO_ID_RESET_N_B (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RESET_N_B & 0xFF))
+#define GPIO_ID_DMUX_1_B  (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_1_B & 0xFF))
+#define GPIO_ID_DMUX_2_B  (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_DMUX_2_B & 0xFF))
+
+#define GPIO_ID_RFT_C     (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RFT_C & 0xFF))
+#define GPIO_ID_SPI_SS_C  (((GPIO_CHIP_1_ID & 0xFF) << 8) | (GPIO_OFFSET_SPI_SS_C & 0xFF))
+#define GPIO_ID_RESET_N_C (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RESET_N_C & 0xFF))
+
+#define GPIO_ID_RFT_D     (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RFT_D & 0xFF))
+#define GPIO_ID_SPI_SS_D  (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_SPI_SS_D & 0xFF))
+#define GPIO_ID_RESET_N_D (((GPIO_CHIP_0_ID & 0xFF) << 8) | (GPIO_OFFSET_RESET_N_D & 0xFF))
+
+// I2C Port Expander
+
+// Jetson: cam-i2c == i2c@3180000 == i2c2 == /dev/i2c-2
+#define TCA9539_I2C_ID  2
+#define TCA9539_I2C_ADR 0x74
+
+// TCA9539 Port 0 Direction:
+// Pins 0,1,6,7 are always Input (States: 0,0,...,1,0)
+// Pins 2,3,4,5 are DMUX 1-D, 2-D, 2-C, 1-C, respectively. Direction and state depend on application
+#define TCA9539_PORT_0_DIRECTION 0xFF
+
+// TCA9539 Port 1 Direction:
+// All pins are inputs
+// Pins 0-3 are constant (0x3), Pins 4-7 are CTRX-OK pins A,C,B,D, respectively
+#define TCA9539_PORT_1_DIRECTION 0xFF
+
+#define TCA9539_PORT_0_POL_INV 0x00
+#define TCA9539_PORT_1_POL_INV 0x00
+
+#define TCA9539_CTRX_OK_A_PORT    1
+#define TCA9539_CTRX_OK_A_PIN     4
+#define TCA9539_CTRX_OK_A_PORTPIN ((TCA9539_CTRX_OK_A_PORT << 4) | (TCA9539_CTRX_OK_A_PIN))
+#define TCA9539_CTRX_OK_A_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_OK_A_PORTPIN))
+
+#define TCA9539_CTRX_OK_B_PORT    1
+#define TCA9539_CTRX_OK_B_PIN     6
+#define TCA9539_CTRX_OK_B_PORTPIN ((TCA9539_CTRX_OK_B_PORT << 4) | (TCA9539_CTRX_OK_B_PIN))
+#define TCA9539_CTRX_OK_B_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_OK_B_PORTPIN))
+
+#define TCA9539_CTRX_OK_C_PORT    1
+#define TCA9539_CTRX_OK_C_PIN     5
+#define TCA9539_CTRX_OK_C_PORTPIN ((TCA9539_CTRX_OK_C_PORT << 4) | (TCA9539_CTRX_OK_C_PIN))
+#define TCA9539_CTRX_OK_C_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_OK_C_PORTPIN))
+
+#define TCA9539_CTRX_OK_D_PORT    1
+#define TCA9539_CTRX_OK_D_PIN     7
+#define TCA9539_CTRX_OK_D_PORTPIN ((TCA9539_CTRX_OK_D_PORT << 4) | (TCA9539_CTRX_OK_D_PIN))
+#define TCA9539_CTRX_OK_D_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_OK_D_PORTPIN))
+
+#define TCA9539_CTRX_DMUX_1_C_PORT    0
+#define TCA9539_CTRX_DMUX_1_C_PIN     5
+#define TCA9539_CTRX_DMUX_1_C_PORTPIN ((TCA9539_CTRX_DMUX_1_C_PORT << 4) | (TCA9539_CTRX_DMUX_1_C_PIN))
+#define TCA9539_CTRX_DMUX_1_C_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_DMUX_1_C_PORTPIN))
+
+#define TCA9539_CTRX_DMUX_2_C_PORT    0
+#define TCA9539_CTRX_DMUX_2_C_PIN     4
+#define TCA9539_CTRX_DMUX_2_C_PORTPIN ((TCA9539_CTRX_DMUX_2_C_PORT << 4) | (TCA9539_CTRX_DMUX_2_C_PIN))
+#define TCA9539_CTRX_DMUX_2_C_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_DMUX_2_C_PORTPIN))
+
+#define TCA9539_CTRX_DMUX_1_D_PORT    0
+#define TCA9539_CTRX_DMUX_1_D_PIN     2
+#define TCA9539_CTRX_DMUX_1_D_PORTPIN ((TCA9539_CTRX_DMUX_1_D_PORT << 4) | (TCA9539_CTRX_DMUX_1_D_PIN))
+#define TCA9539_CTRX_DMUX_1_D_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_DMUX_1_D_PORTPIN))
+
+#define TCA9539_CTRX_DMUX_2_D_PORT    0
+#define TCA9539_CTRX_DMUX_2_D_PIN     3
+#define TCA9539_CTRX_DMUX_2_D_PORTPIN ((TCA9539_CTRX_DMUX_2_D_PORT << 4) | (TCA9539_CTRX_DMUX_2_D_PIN))
+#define TCA9539_CTRX_DMUX_2_D_GPIO_ID ((TCA9539_GPIO_IDENTIFIER << 8) | (TCA9539_CTRX_DMUX_2_D_PORTPIN))
+
+#define CTRX_A_SPI_ID 0x10
+#define CTRX_B_SPI_ID 0x11
+#define CTRX_C_SPI_ID 0x12
+#define CTRX_D_SPI_ID 0x13
+
+#endif  // PLATFORM_ADAPTER_ORIN_TO_P2S30_4XCTRX8191F_V5_H

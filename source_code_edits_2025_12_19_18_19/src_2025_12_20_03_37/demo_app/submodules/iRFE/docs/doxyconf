@@ -1,0 +1,32 @@
+# Doxyfile 1.9.6
+# This file describes the settings to be used by the documentation system
+PROJECT_NAME           = "iRFE"
+PROJECT_BRIEF          = "Documentation for iRFE driver"
+PROJECT_LOGO           = docs/logo.png
+OUTPUT_DIRECTORY       = docs/
+INPUT                  = src/ \
+                         include/ \
+						 pmic_power/ \
+                         wrappers/ \
+                         docs/doc_pages/ \
+                         docs/examples/ 
+USE_MDFILE_AS_MAINPAGE = MainPage.md
+
+GENERATE_TESTLIST      = NO
+QUIET                  = YES
+FILE_PATTERNS          = *.c \
+                         *.h \
+                         *.md
+EXCLUDE_PATTERNS       = build/
+RECURSIVE              = YES
+GENERATE_TREEVIEW      = YES
+GENERATE_LATEX         = NO
+JAVADOC_AUTOBRIEF      = YES
+OPTIMIZE_OUTPUT_FOR_C  = YES
+OPTIMIZE_OUTPUT_JAVA   = YES
+EXTRACT_ALL            = YES
+USE_HTAGS              = NO
+DISABLE_INDEX          = YES
+MARKDOWN_SUPPORT       = YES
+IMAGE_PATH             = docs/doc_pages/
+EXAMPLE_PATH           = ../demo_app
